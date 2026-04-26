@@ -14,7 +14,7 @@ then
   INSERT_USER=$($PSQL "INSERT INTO users(username) VALUES('$USERNAME')")
 else
 # existing user logic
-  IFS="|" read GAMES_PLAYED BEST_GAME <<< "$USER_DATA"
+  IFS="|" read -r GAMES_PLAYED BEST_GAME <<< "$USER_DATA"
   echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
 fi
 
@@ -23,7 +23,7 @@ TRIES=0
 
 echo "Guess the secret number between 1 and 1000:"
 
-while true
+while :
 do
   read GUESS
 # non-integer check
@@ -32,10 +32,10 @@ do
     echo "That is not an integer, guess again:"
     continue
   fi
-  
-(( TRIES++ ))
 
- if [[ "$GUESS" -eq "$SECRET_NUMBER" ]]
+  (( TRIES++ ))
+
+  if [[ "$GUESS" -eq "$SECRET_NUMBER" ]]
   then
     echo "You guessed it in $TRIES tries. The secret number was $SECRET_NUMBER. Nice job!"
 # increment games_played and update best_game 
